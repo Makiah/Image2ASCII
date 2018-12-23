@@ -1,22 +1,70 @@
 # Image2ASCII
 
-## Creating ASCII video
-Looking at [this project](https://github.com/joelibaceta/video-to-ascii) specifically, it seems that the go-to for creating images from ASCII is to simply color each character based on the average color of each sub-area.  This seems like it could be greatly improved.  This image seems completely illegible without colors, which I think should not be required.
+## Motivation
+Looking at common approaches to imagery->ascii conversion, it seems that the go-to for creating images is to simply color each character based on the average color and density of each defined region.  What about black and white images, then?  The approach seems like it could be improved.  
 
-Here's an example of good ASCII art (IMHO) that lacks colors.  
-![Example of good ASCII art](https://static1.squarespace.com/static/5a0b990680bd5e8101834740/t/5ac01c4b70a6ad85f4b336b7/1522539613237/Screen+Shot+2018-03-31+at+7.39.37+PM.png?format=500w)
+## Approach
+1. Convert image to grayscale.  
+2. Segment the screen into pixel regions (depending on how accurate we want this to be, tradeoff between less characters and more accuracy)
+2. For each pixel region, observe the mean pixel value differences by segmenting the image diagonally, vertically, and horizontally, then choosing one of `/\|-` to replace it with.  
 
-Why not do the following: 
-1. Segment the screen into pixel regions (depending on how accurate we want this to be, tradeoff between less characters and more accuracy)
-2. For each pixel region, augment the differences apparent between two sides of the image and find the best match ASCII character.  
-
-| Character  | Image |
-| ------------- | ------------- |
-| \ |   |
-
-| Builder  | Image |
-| ------------- | ------------- |
-| [video-to-ascii](https://github.com/joelibaceta/video-to-ascii) | ![this image](https://github.com/joelibaceta/video-to-ascii/blob/master/images/imgPixelImage.png)  |
-| Hand-Drawn  | TBD  |
-| Auto-Generated  | TBD  |
+## Examples
+(You'll probably want to change letter spacing if you use the output elsewhere)
+<table>
+  <tr>
+    <td>
+      <img src="exampleimages/butterfly.png"></img> 
+    </td>
+    <td>
+<pre>/\\-                     /-//\
+\|-\/--                /--/  /
+\||/| -\              /  |\-||
+| \- /\/--          /-\/- -/ |
+ \ /--|-- -        / --/--\-- 
+ | /---\ \-\      //- /--/  | 
+   /   \   \\|\/|//       \   
+  /|\   --- \\/-// /---- ||\  
+  |        --\/\//--       |  
+   |\-------  /\| --------|   
+    --\/ ----||||---- \//-    
+    / -  /-- |  | \- - \|\    
+   / |--/| //||| \\  \\-\/|   
+   |// |/ - /||||\  -|  -||   
+   // /\  |/||||  \  -/\ \|   
+   ||    | // || \\ |   \||   
+   |/\/|| /   ||   \ | \/ |   
+    \  -\ |//    \||\/-  /    
+     \    \/      \/    /     
+       ----        ---- </pre>
+    </td>
+    <td>
+      <img src="exampleimages/pencil.jpeg"></img> 
+    </td>
+    <td>
+<pre>                     -----    
+                   //    \\   
+                 /         \- 
+                /- -        \\
+              /     --        
+             //      \\      /
+           /                / 
+          //\\         /   /  
+        /     \\      -  /    
+       //           /   -     
+     /           \-   /       
+    //           /\ /-        
+   /|          /   /          
+   | -\          /            
+  /|   |    /   /             
+        ---   /               
+ /|       |  -                
+ /\    /----                  
+/  \----                      
+|--- </pre>
+    </td>
+  </tr>
+  </table>
+  
+## Conversion Process
+Clone this project in XCode and pass the image in question.  
 
