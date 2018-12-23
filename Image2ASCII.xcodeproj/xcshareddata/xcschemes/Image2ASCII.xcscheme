@@ -63,7 +63,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "/Users/makiah/Desktop/Image2ASCII/passed2.jpeg"
+            argument = "/Users/makiah/Desktop/Image2ASCII/exampleimages/butterfly.png"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
